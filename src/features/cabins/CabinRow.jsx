@@ -55,8 +55,8 @@ export default function CabinRow({ cabin }) {
       });
       toast.success(`cabin deleted successfully`);
     },
-    onError: err => {
-      toast.error(err.message);
+    onError: error => {
+      toast.error(error.message);
     },
   });
   return (

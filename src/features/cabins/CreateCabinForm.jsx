@@ -7,12 +7,12 @@ import FileInput from '../../ui/FileInput';
 import Textarea from '../../ui/Textarea';
 import FormRow from '../../ui/FormRow';
 
-import UseCreateCabin from './useCreateCabin';
+import useCreateCabin from './useCreateCabin';
 
 function CreateCabinForm({ cabinToEdit = {} }) {
   const { id: editId, ...editValues } = cabinToEdit;
   const isEditSession = Boolean(editId);
-  const { isCreating, createCabin } = UseCreateCabin();
+  const { isCreating, createCabin } = useCreateCabin();
   const { register, handleSubmit, reset, getValues, formState } = useForm({
     defaultValues: isEditSession ? editValues : {},
   });

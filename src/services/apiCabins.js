@@ -13,25 +13,13 @@ export async function getCabinsApi() {
 
 export async function createCabinApi(newCabin, id) {
   const hasImagePath = newCabin?.image?.startsWith?.(supabaseUrl);
-  let imagePath;
-
-  // Upload cabin image if it doesn't have an image path
-  if (!hasImagePath) {
-    const imageName = `${Math.random()}-${newCabin.image.name}`.replaceAll(
-      '/',
-      ''
-    );
-    imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images//${imageName}`;
-
-    const { error: storageError } = await supabase.storage
-      .from('cabin-images')
-      .upload(imageName, newCabin.image);
-
-    if (storageError) {
-      console.log(storageError);
-      throw new Error('Cabin image could not be uploaded');
-    }
-  }
+  const imageName = `${Math.random()}-${newCabin?.image?.name}`.replaceAll(
+    '/',
+    ''
+  );
+  const imagePath = hasImagePath
+    ? newCabin.image
+    : `${supabaseUrl}/storage/v1/object/public/cabin-images//${imageName}`;
 
   let query = supabase.from('cabins');
 
@@ -49,6 +37,18 @@ export async function createCabinApi(newCabin, id) {
   if (error) {
     console.log(error);
     throw new Error('Cabin could not be created');
+  }
+
+  // Return data if it has Image Path
+  if (hasImagePath) return data;
+
+  const { error: storageError } = await supabase.storage
+    .from('cabin-images')
+    .upload(imageName, newCabin.image);
+
+  if (storageError) {
+    console.log(storageError);
+    throw new Error('Cabin image could not be uploaded');
   }
 
   return data;

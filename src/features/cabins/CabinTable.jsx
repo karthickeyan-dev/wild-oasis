@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Spinner from '../../ui/Spinner';
 import CabinRow from './CabinRow';
-import UseCabins from './useCabins';
+import useCabins from './useCabins';
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -28,7 +28,7 @@ const TableHeader = styled.header`
 `;
 
 export default function CabinTable() {
-  const { isPending, cabins, error } = UseCabins();
+  const { isPending, cabins, error } = useCabins();
   // const {
   //   isPending,
   //   data: cabins,

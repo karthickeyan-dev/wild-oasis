@@ -12,13 +12,14 @@ import useCreateCabin from './useCreateCabin';
 function CreateCabinForm({ cabinToEdit = {} }) {
   const { id: editId, ...editValues } = cabinToEdit;
   const isEditSession = Boolean(editId);
+
   const { isCreating, createCabin } = useCreateCabin();
   const { register, handleSubmit, reset, getValues, formState } = useForm({
     defaultValues: isEditSession ? editValues : {},
   });
   const { errors } = formState;
-
-  function onSubmit(data) {
+  // console.log(editValues);
+  function handleFormSubmit(data) {
     const image = typeof data.image === 'string' ? data.image : data.image[0];
     createCabin(
       { newCabin: { ...data, image }, id: editId },
@@ -26,12 +27,12 @@ function CreateCabinForm({ cabinToEdit = {} }) {
     );
   }
 
-  function onError(error) {
+  function handleFormError(error) {
     // console.log(error);
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form onSubmit={handleSubmit(handleFormSubmit, handleFormError)}>
       <FormRow label="Cabin name" error={errors?.name?.message}>
         <Input
           type="text"

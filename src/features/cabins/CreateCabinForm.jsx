@@ -8,15 +8,21 @@ import Button from '../../ui/Button';
 import FileInput from '../../ui/FileInput';
 import Textarea from '../../ui/Textarea';
 import FormRow from '../../ui/FormRow';
+
 import { createCabin } from '../../services/apiCabins';
 
-function CreateCabinForm() {
-  const { register, handleSubmit, reset, getValues, formState } = useForm();
+function CreateCabinForm({ cabinToEdit = {} }) {
+  const { id: editId, ...editValues } = cabinToEdit;
+  const isEditSession = Boolean(editId);
+
+  const { register, handleSubmit, reset, getValues, formState } = useForm({
+    defaultValues: isEditSession ? editValues : {},
+  });
   const { errors } = formState;
 
   const queryClient = useQueryClient();
   const { isPending, mutate } = useMutation({
-    mutationFn: createCabin,
+    mutationFn: ({ newCabin, id }) => createCabin(newCabin, id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['cabins'],
@@ -30,8 +36,10 @@ function CreateCabinForm() {
   });
 
   function onSubmit(data) {
+    const image = typeof data.image === 'string' ? data.image : data.image[0];
     // console.log(data);
-    mutate({ ...data, image: data.image[0] });
+    mutate({ newCabin: { ...data, image }, id: editId });
+    console.log({ newCabin: { ...data, image }, id: editId });
   }
 
   function onError(error) {
@@ -109,7 +117,9 @@ function CreateCabinForm() {
           id="image"
           accept="image/*"
           disabled={isPending}
-          {...register('image', { required: 'This field is required' })}
+          {...register('image', {
+            required: isEditSession ? false : 'This field is required',
+          })}
         />
       </FormRow>
 
@@ -117,7 +127,9 @@ function CreateCabinForm() {
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
-        <Button disabled={isPending}>Add cabin</Button>
+        <Button disabled={isPending}>
+          {isEditSession ? 'Edit cabin' : 'Add cabin'}
+        </Button>
       </FormRow>
     </Form>
   );

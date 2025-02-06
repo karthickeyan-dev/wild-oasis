@@ -1,6 +1,6 @@
 import supabase, { supabaseUrl } from './supabase';
 
-export async function getCabins() {
+export async function getCabinsApi() {
   const { data, error } = await supabase.from('cabins').select('*');
 
   if (error) {
@@ -11,7 +11,7 @@ export async function getCabins() {
   return data;
 }
 
-export async function createCabin(newCabin, id) {
+export async function createCabinApi(newCabin, id) {
   const hasImagePath = newCabin?.image?.startsWith?.(supabaseUrl);
   let imagePath;
 
@@ -54,7 +54,7 @@ export async function createCabin(newCabin, id) {
   return data;
 }
 
-export async function deleteCabin(id) {
+export async function deleteCabinApi(id) {
   const { error } = await supabase.from('cabins').delete().eq('id', id);
 
   if (error) {

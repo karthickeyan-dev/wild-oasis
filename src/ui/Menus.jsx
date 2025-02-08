@@ -8,6 +8,7 @@ const Menu = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  position: relative;
 `;
 
 const StyledToggle = styled.button`
@@ -30,7 +31,8 @@ const StyledToggle = styled.button`
 `;
 
 const StyledList = styled.ul`
-  position: fixed;
+  position: absolute;
+  z-index: 99;
 
   background-color: var(--color-grey-0);
   box-shadow: var(--shadow-md);
@@ -91,8 +93,8 @@ function Toggle({ id }) {
     const rect = e.target.closest('button').getBoundingClientRect();
     // console.log(rect);
     setPosition({
-      x: innerWidth - rect.x - rect.width,
-      y: rect.y + rect.height + 8,
+      x: -rect.width - 8,
+      y: rect.height + 8,
     });
 
     openId === '' || openId !== id ? open(id) : close();
@@ -111,11 +113,10 @@ function List({ id, children }) {
 
   if (openId !== id) return null;
 
-  return createPortal(
+  return (
     <StyledList ref={menuRef} position={position}>
       {children}
-    </StyledList>,
-    document.body
+    </StyledList>
   );
 }
 

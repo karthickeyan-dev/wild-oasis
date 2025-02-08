@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-export default function useModalClose(handler) {
+export default function useOutsideClick(handler) {
   const ref = useRef();
 
   useEffect(() => {

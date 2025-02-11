@@ -7,7 +7,7 @@ import Empty from '../../ui/Empty';
 import Pagination from '../../ui/Pagination';
 
 function BookingTable() {
-  const { isPending, bookings } = useBookings();
+  const { isPending, bookings, count } = useBookings();
 
   if (isPending) return <Spinner />;
 
@@ -30,7 +30,7 @@ function BookingTable() {
           render={booking => <BookingRow key={booking.id} booking={booking} />}
         />
         <Table.Footer>
-          <Pagination count={5} />
+          <Pagination count={count} />
         </Table.Footer>
       </Table>
     </Menus>

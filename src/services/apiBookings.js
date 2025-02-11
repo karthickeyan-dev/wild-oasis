@@ -28,7 +28,7 @@ export async function getBookingsApi({ filter, sort, page }) {
   return { data, count };
 }
 
-export async function getBooking(id) {
+export async function getBookingApi(id) {
   const { data, error } = await supabase
     .from('bookings')
     .select('*, cabins(*), guests(*)')

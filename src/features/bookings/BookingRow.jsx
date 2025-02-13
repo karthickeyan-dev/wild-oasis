@@ -127,13 +127,13 @@ function BookingRow({ booking }) {
             </Modal.Open>
           </Menus.List>
         </Menus.Menu>
-
         <Modal.Window name="delete">
           <ConfirmDelete
             resourceName="booking"
             disabled={isDeleting}
             onConfirm={() =>
               deleteBooking(bookingId, {
+                //HACK
                 onSuccess: () => navigate('/bookings'),
               })
             }

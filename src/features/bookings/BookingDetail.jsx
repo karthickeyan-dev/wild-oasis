@@ -19,6 +19,8 @@ import {
 import { useNavigate } from 'react-router-dom';
 import useCheckout from '../check-in-out/useCheckout';
 import useDeleteBooking from './useDeleteBooking';
+import Modal from '../../ui/Modal';
+import ConfirmDelete from '../../ui/ConfirmDelete';
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -56,15 +58,6 @@ function BookingDetail() {
       <BookingDataBox booking={booking} />
 
       <ButtonGroup>
-        <Button
-          variation="danger"
-          icon={<HiTrash />}
-          disabled={isDeleting}
-          onClick={() => deleteBooking(bookingId)}
-        >
-          Delete
-        </Button>
-
         {status === 'unconfirmed' && (
           <Button
             icon={<HiArrowDownOnSquare />}
@@ -82,6 +75,22 @@ function BookingDetail() {
             Check out
           </Button>
         )}
+        <Modal>
+          <Modal.Open opens="delete">
+            <Button variation="danger" icon={<HiTrash />}>
+              Delete
+            </Button>
+          </Modal.Open>
+          <Modal.Window name="delete">
+            <ConfirmDelete
+              resourceName="booking"
+              disabled={isDeleting}
+              onConfirm={() =>
+                deleteBooking(bookingId, { onSuccess: moveBack })
+              }
+            />
+          </Modal.Window>
+        </Modal>
         <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>

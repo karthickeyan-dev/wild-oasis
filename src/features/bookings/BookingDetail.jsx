@@ -11,9 +11,14 @@ import ButtonText from '../../ui/ButtonText';
 import { useMoveBack } from '../../hooks/useMoveBack';
 import useBooking from './useBooking';
 import Spinner from '../../ui/Spinner';
-import { HiArrowDownOnSquare, HiArrowUpOnSquare } from 'react-icons/hi2';
+import {
+  HiArrowDownOnSquare,
+  HiArrowUpOnSquare,
+  HiTrash,
+} from 'react-icons/hi2';
 import { useNavigate } from 'react-router-dom';
 import useCheckout from '../check-in-out/useCheckout';
+import useDeleteBooking from './useDeleteBooking';
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -26,6 +31,7 @@ function BookingDetail() {
   const navigate = useNavigate();
   const { isPending, booking } = useBooking();
   const { isCheckingOut, checkout } = useCheckout();
+  const { isDeleting, deleteBooking } = useDeleteBooking();
 
   if (isPending) return <Spinner />;
 
@@ -50,6 +56,15 @@ function BookingDetail() {
       <BookingDataBox booking={booking} />
 
       <ButtonGroup>
+        <Button
+          variation="danger"
+          icon={<HiTrash />}
+          disabled={isDeleting}
+          onClick={() => deleteBooking(bookingId)}
+        >
+          Delete
+        </Button>
+
         {status === 'unconfirmed' && (
           <Button
             icon={<HiArrowDownOnSquare />}

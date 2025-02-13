@@ -7,7 +7,11 @@ export default function Logout() {
   const { isPending, logout } = useLogout();
 
   return (
-    <ButtonIcon disabled={isPending} onClick={logout}>
+    <ButtonIcon
+      disabled={isPending}
+      onClick={logout}
+      style={{ marginLeft: 'auto' }}
+    >
       {isPending ? <SpinnerMini /> : <HiArrowRightOnRectangle />}
     </ButtonIcon>
   );

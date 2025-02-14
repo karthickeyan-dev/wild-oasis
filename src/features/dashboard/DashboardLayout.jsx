@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -6,3 +6,7 @@ const StyledDashboardLayout = styled.div`
   grid-template-rows: auto 34rem auto;
   gap: 2.4rem;
 `;
+
+export default function DashboardLayout() {
+  return <StyledDashboardLayout></StyledDashboardLayout>;
+}

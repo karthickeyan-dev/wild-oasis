@@ -52,11 +52,11 @@ function BookingRow({ booking }) {
 
   const {
     id: bookingId,
-    created_at,
+    // created_at,
     startDate,
     endDate,
     numNights,
-    numGuests,
+    // numGuests,
     totalPrice,
     status,
     guests: { name: guestName, email },

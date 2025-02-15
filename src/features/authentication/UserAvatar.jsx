@@ -27,10 +27,7 @@ export default function UserAvatar() {
 
   return (
     <StyledUserAvatar>
-      <Avatar
-        src={avatar || 'default-user.jpg'}
-        alt={`Avatar of ${fullName}`}
-      />
+      <Avatar src={avatar || 'default-user.jpg'} />
       <span>{fullName}</span>
     </StyledUserAvatar>
   );
